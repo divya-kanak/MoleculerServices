@@ -1,0 +1,49 @@
+{
+  "name": "inverview-challenges-1",
+  "version": "1.0.0",
+  "description": "My Moleculer-based microservices project",
+  "scripts": {
+    "dev": "moleculer-runner --repl --hot services/**/*.service.js",
+    "start": "moleculer-runner",
+    "cli": "moleculer connect NATS",
+    "ci": "jest --watch",
+    "test": "set ELASTICSEARCH_HOST=http://localhost:9200&& set REDIS_HOST=localhost&& jest --coverage",
+    "lint": "eslint . --ext .js --fix",
+    "dc:up": "docker-compose up --build -d",
+    "dc:logs": "docker-compose logs -f",
+    "dc:down": "docker-compose down"
+  },
+  "keywords": [
+    "microservices",
+    "moleculer"
+  ],
+  "author": "",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "jest-cli": "^25.1.0",
+    "moleculer-repl": "^0.6.2"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "elasticsearch": "^16.6.0",
+    "joi": "^14.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "moleculer": "^0.14.0",
+    "moleculer-web": "^0.9.0",
+    "nats": "^1.3.2",
+    "redis": "^3.0.2"
+  },
+  "engines": {
+    "node": ">= 10.x.x"
+  },
+  "jest": {
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node",
+    "rootDir": "./services",
+    "roots": [
+      "../test"
+    ]
+  }
+}

@@ -1,0 +1,75 @@
+version: "3.0"
+
+services:
+  nats:
+    image: nats:2
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 9200:9200
+
+  redis:
+    image: redis:alpine
+
+  api:
+    build:
+      context: .
+    restart: always
+    image: inverview-challenges
+    env_file: .env
+    environment:
+      SERVICES: api
+      PORT: 3000
+    depends_on:
+      - nats
+      - elasticsearch
+      - redis
+    ports:
+      - "3000:3000"
+
+  auth:
+    build:
+      context: .
+    restart: always
+    image: inverview-challenges
+    env_file: .env
+    environment:
+      SERVICES: auth
+    depends_on:
+      - nats
+      - elasticsearch
+      - redis
+
+  cart:
+    build:
+      context: .
+    restart: always
+    image: inverview-challenges
+    env_file: .env
+    environment:
+      SERVICES: cart
+    depends_on:
+      - nats
+      - elasticsearch
+      - redis
+
+  product:
+    build:
+      context: .
+    restart: always
+    image: inverview-challenges
+    env_file: .env
+    environment:
+      SERVICES: product
+    depends_on:
+      - nats
+      - elasticsearch
